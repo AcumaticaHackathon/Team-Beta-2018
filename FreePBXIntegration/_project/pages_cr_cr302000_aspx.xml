@@ -8,6 +8,20 @@
                     <Prop Key="Visible" Value="false" />
                 </PXDSCallbackCommand>
             </AddItem>
+            <AddItem>
+                <PXDSCallbackCommand TypeFullName="PX.Web.UI.PXDSCallbackCommand">
+                    <Prop Key="CommitChanges" Value="true" />
+                    <Prop Key="Name" Value="CallPhone2" />
+                    <Prop Key="Visible" Value="false" />
+                </PXDSCallbackCommand>
+            </AddItem>
+            <AddItem>
+                <PXDSCallbackCommand TypeFullName="PX.Web.UI.PXDSCallbackCommand">
+                    <Prop Key="CommitChanges" Value="true" />
+                    <Prop Key="Name" Value="CallPhone3" />
+                    <Prop Key="Visible" Value="false" />
+                </PXDSCallbackCommand>
+            </AddItem>
         </Children>
     </PXDataSource>
     <PXTabItem Text="Details" ParentId="phG_tab_Items#0" TypeFullName="PX.Web.UI.PXTabItem">

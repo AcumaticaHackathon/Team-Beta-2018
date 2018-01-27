@@ -22,28 +22,34 @@ namespace PX.Objects.CR
         public PXAction<Contact> callPhone1;
         [PXUIField(DisplayName = "Call Phone 1", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton]
-        public virtual void CallPhone1(PXAdapter adapter)
+        public virtual IEnumerable CallPhone1(PXAdapter adapter)
         {
             Contact contact = Base.Contact.Current; 
             InitiateOutboundCall(contact.Phone1);
+
+            return adapter.Get();
         }
           
         public PXAction<Contact> callPhone2;
         [PXUIField(DisplayName = "Call Phone 2", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton]
-        public virtual void CallPhone2(PXAdapter adapter)
+        public virtual IEnumerable CallPhone2(PXAdapter adapter)
         {
             Contact contact = Base.Contact.Current; 
             InitiateOutboundCall(contact.Phone2);
+  
+            return adapter.Get();
         }
           
         public PXAction<Contact> callPhone3;
         [PXUIField(DisplayName = "Call Phone 3", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton]
-        public virtual void CallPhone3(PXAdapter adapter)
+        public virtual IEnumerable CallPhone3(PXAdapter adapter)
         {
             Contact contact = Base.Contact.Current; 
             InitiateOutboundCall(contact.Phone3);
+
+            return adapter.Get();
         }
           
         protected virtual void InitiateOutboundCall(string PhoneNumber) {
