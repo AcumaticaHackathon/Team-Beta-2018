@@ -1,0 +1,12 @@
+﻿<DAC type="PX.Objects.CR.BAccount">
+    <Field FieldName="UsrPhoneExtension" TypeName="string" MapDbTable="BAccount" TextAttributes="#CDATA" StorageName="AddColumn">
+        <CDATA name="TextAttributes"><![CDATA[[PXDBString(5)]
+[PXUIField(DisplayName="Phone Extension")]
+]]></CDATA>
+    </Field>
+    <Field FieldName="UsrSIPCredential" TypeName="string" MapDbTable="BAccount" TextAttributes="#CDATA" StorageName="AddColumn">
+        <CDATA name="TextAttributes"><![CDATA[[PXDBString(50)]
+[PXUIField(DisplayName="SIP Credential")]
+]]></CDATA>
+    </Field>
+</DAC>

@@ -1,0 +1,38 @@
+﻿<Graph ClassName="ContactMaint" Source="#CDATA" IsNew="True" FileType="ExistingGraph">
+    <CDATA name="Source"><![CDATA[using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using PX.Common;
+using PX.Data;
+using PX.Objects.AR;
+using PX.Objects.CR.MassProcess;
+using PX.Objects.GL;
+using PX.Objects.CS;
+using PX.Objects.EP;
+using PX.SM;
+using PX.Objects;
+using PX.Objects.CR;
+
+namespace PX.Objects.CR
+{
+  public class ContactMaint_Extension : PXGraphExtension<ContactMaint>
+  {
+  
+        public PXAction<Contact> callPhone1;
+        [PXUIField(DisplayName = "Call Phone 1", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXButton]
+        public virtual IEnumerable CallPhone1(PXAdapter adapter)
+        {
+          Contact contact = Base.Contact.Current; 
+          contact.Phone1 = "test";
+
+          return adapter.Get();
+        }
+
+    #region Event Handlers
+
+    #endregion
+  }
+}]]></CDATA>
+</Graph>

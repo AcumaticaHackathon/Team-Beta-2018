@@ -1,0 +1,14 @@
+﻿<Sql TableName="PhoneCallerAudit" TableSchemaXml="#CDATA">
+    <CDATA name="TableSchemaXml"><![CDATA[<table name="PhoneCallerAudit">
+  <col name="CompanyID" type="Int" default="Zero" />
+  <col name="RecordID" type="BigInt" identity="true" />
+  <col name="PhoneNubmer" type="NVarChar(32)" nullable="true" />
+  <col name="CallerID" type="NVarChar(32)" nullable="true" />
+  <col name="tstamp" type="Timestamp" />
+  <col name="NoteID" type="UniqueIdentifier" nullable="true" />
+  <index name="PhoneCallerAudit_PK" clustered="true" primary="true" unique="true">
+    <col name="CompanyID" />
+    <col name="RecordID" />
+  </index>
+</table>]]></CDATA>
+</Sql>
