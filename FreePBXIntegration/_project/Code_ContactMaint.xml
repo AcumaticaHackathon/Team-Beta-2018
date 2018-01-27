@@ -3,6 +3,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net;
 using PX.Common;
 using PX.Data;
 using PX.Objects.AR;
@@ -13,6 +16,7 @@ using PX.Objects.EP;
 using PX.SM;
 using PX.Objects;
 using PX.Objects.CR;
+
 
 namespace PX.Objects.CR
 {
@@ -51,10 +55,34 @@ namespace PX.Objects.CR
 
             return adapter.Get();
         }
-          
-        protected virtual void InitiateOutboundCall(string PhoneNumber) {
+
+        public void MyPut()
+        {
+ 
+                HttpClient client = new HttpClient(
+                new HttpClientHandler
+                {
+                    UseCookies = true,
+                    CookieContainer = new CookieContainer()
+                })
+            {
+                BaseAddress = new Uri(""),
+                DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("text/json") }
+                    }
+            };
+
+            var response = client.PostAsync("http://ipaddress/call.php??exten=SIP/100&number=9999999999", new StringContent("", System.Text.Encoding.UTF8, "application/json")).Result;
+            var content = response.Content.ReadAsStringAsync().Result;
+            response.EnsureSuccessStatusCode();
+        }
+
+        protected virtual void InitiateOutboundCall(string PhoneNumber)
+        {
             // Get Ext and SIP Credential from user
             // Get IP from branch
+            MyPut();
         }
           
         
