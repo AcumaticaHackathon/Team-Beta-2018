@@ -22,9 +22,10 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             Where<Contact.phone1,
                 Equal<Required<Contact.phone1>>>>.Select(graph, search_phone);
         // For now, just grab the first result
-        contactName = ((Contact)contacts.First()).DisplayName;
+        var contact = ((Contact)contacts.First());
+        contactName = contact.DisplayName;
 
-        var customers = PXSelect<BAccount, Where<BAccount.bAccountID, Equal<Required<Contact.bAccountID>>>>.Select(graph, item.BAccountID);
+        var customers = PXSelect<BAccount, Where<BAccount.bAccountID, Equal<Required<Contact.bAccountID>>>>.Select(graph, contact.BAccountID);
         // There should only be one bAccount that matches
         accountCD = ((BAccount)customers.First()).AcctCD;
 
