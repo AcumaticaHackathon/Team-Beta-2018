@@ -61,9 +61,10 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             contact.Phone1 = search_phone;
             contact = graph.Contact.Insert(contact);
             graph.Contact.Cache.Persist(PXDBOperation.Insert);
+            graph.Save.Press();
             contactName = default_callID;
 			
-			contactId = contact.ContactID;
+	    contactId = graph.Contact.Current.ContactID;
         }
 
         // Save an audit record of the phone call
@@ -71,10 +72,9 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
         var audit = new PhoneCallerAudit();
         audit.PhoneNubmer = search_phone;
         audit.CallerID = contactName;
-		audit.ContactID = contactId;
+	audit.ContactID = contactId;
         audit_graph.Audit.Insert(audit);
-        //audit_graph.Audit.Cache.Persist(PXDBOperation.Insert);
-		audit_graph.Save.Press();
+	audit_graph.Save.Press();
 		
         var json = string.Format("{{\"baccount\": \"{0}\", \"contact\": \"{1}\"}}", accountCD, contactName);
 
