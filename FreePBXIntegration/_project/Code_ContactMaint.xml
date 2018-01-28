@@ -22,6 +22,7 @@ namespace PX.Objects.CR
 {
   public class ContactMaint_Extension : PXGraphExtension<ContactMaint>
   {
+        public PXSetup<CRSetup> setup;
   
         public PXAction<Contact> callPhone1;
         [PXUIField(DisplayName = "Call Phone 1", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
@@ -29,7 +30,7 @@ namespace PX.Objects.CR
         public virtual IEnumerable CallPhone1(PXAdapter adapter)
         {
             Contact contact = Base.Contact.Current; 
-            InitiateOutboundCall(contact.Phone1);
+            MyPut(contact.Phone1);
 
             return adapter.Get();
         }
@@ -40,7 +41,7 @@ namespace PX.Objects.CR
         public virtual IEnumerable CallPhone2(PXAdapter adapter)
         {
             Contact contact = Base.Contact.Current; 
-            InitiateOutboundCall(contact.Phone2);
+            MyPut(contact.Phone2);
   
             return adapter.Get();
         }
@@ -51,38 +52,41 @@ namespace PX.Objects.CR
         public virtual IEnumerable CallPhone3(PXAdapter adapter)
         {
             Contact contact = Base.Contact.Current; 
-            InitiateOutboundCall(contact.Phone3);
+            MyPut(contact.Phone3);
 
             return adapter.Get();
         }
 
-        public void MyPut()
+        public void MyPut(string phoneNumber)
         {
- 
-                HttpClient client = new HttpClient(
+
+            CRSetupExt ext = setup.Current.GetExtension<CRSetupExt>();
+            string url = ext.UsrVOIPUrl;
+
+            EPEmployee employee = PXSelect<EPEmployee,
+                Where<EPEmployee.userID, Equal<Required<EPEmployee.userID>>>>.Select(Base, Base.Accessinfo.UserID);
+
+            BAccountExt baccountExtension = employee.GetExtension<BAccountExt>();
+            string phoneExt = baccountExtension.UsrPhoneExtension;
+
+            HttpClient client = new HttpClient(
                 new HttpClientHandler
                 {
                     UseCookies = true,
                     CookieContainer = new CookieContainer()
                 })
             {
-                BaseAddress = new Uri(""),
+                BaseAddress = new Uri("http://" + url + "/"),
                 DefaultRequestHeaders =
                     {
                         Accept = { MediaTypeWithQualityHeaderValue.Parse("text/json") }
                     }
             };
 
-            var response = client.PostAsync("http://ipaddress/call.php??exten=SIP/100&number=9999999999", new StringContent("", System.Text.Encoding.UTF8, "application/json")).Result;
+            var response = client.PostAsync("http://ipaddress/call.php??exten=" + phoneExt + "&number=" + phoneNumber, 
+                new StringContent("", System.Text.Encoding.UTF8, "application/json")).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             response.EnsureSuccessStatusCode();
-        }
-
-        protected virtual void InitiateOutboundCall(string PhoneNumber)
-        {
-            // Get Ext and SIP Credential from user
-            // Get IP from branch
-            MyPut();
         }
           
         
