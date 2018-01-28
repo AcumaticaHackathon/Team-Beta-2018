@@ -83,7 +83,7 @@ namespace PX.Objects.CR
                     }
             };
 
-            var response = client.PostAsync("http://" + url + "/call.php??exten=" + phoneExt + "&number=" + phoneNumber, 
+            var response = client.PostAsync("http://" + url + "/call.php?exten=" + phoneExt + "&number=" + phoneNumber, 
                 new StringContent("", System.Text.Encoding.UTF8, "application/json")).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             response.EnsureSuccessStatusCode();

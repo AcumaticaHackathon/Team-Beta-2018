@@ -20,16 +20,27 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
 
         var contacts = PXSelect<Contact,
             Where<Contact.phone1,
-                Equal<Required<Contact.phone1>>>>.Select(graph, search_phone);
+                Equal<Required<Contact.phone1>>,
+            Or<Contact.phone2,
+                Equal<Required<Contact.phone2>>,
+            Or<Contact.phone3,
+                Equal<Required<Contact.phone3>>>>>>.Select(graph, search_phone, search_phone, search_phone);
         // For now, just grab the first result
-        var contact = ((Contact)contacts.First());
-        contactName = contact.DisplayName;
+        if (contacts.Count() > 0)
+        {
+            var contact = ((Contact)contacts.First());
+            contactName = contact.DisplayName;
+            var customers = PXSelect<BAccount, 
+                Where<BAccount.bAccountID, 
+                    Equal<Required<Contact.bAccountID>>>>.Select(graph, contact.BAccountID);
+            // There should only be one bAccount that matches
+            if (customers.Count() > 0)
+            { 
+                accountCD = ((BAccount)customers.First()).AcctCD;
+            }
+        }
 
-        var customers = PXSelect<BAccount, Where<BAccount.bAccountID, Equal<Required<Contact.bAccountID>>>>.Select(graph, contact.BAccountID);
-        // There should only be one bAccount that matches
-        accountCD = ((BAccount)customers.First()).AcctCD;
-
-        var json = string.Format("[\"{0}\", \"{1}\"]", accountCD, contactName);
+        var json = string.Format("{{\"baccount\": \"{0}\", \"contact\": \"{1}\"}}", accountCD, contactName);
 
         Response.Clear();
         Response.ContentType = "application/json; charset=utf-8";
