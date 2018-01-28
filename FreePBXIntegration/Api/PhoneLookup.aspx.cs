@@ -86,8 +86,8 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             activity = activity_graph.Activities.Insert(activity);
             activity.Type = "P";
             activity.Subject = "Inbound Call";
-            activity.OwnerID = activity_graph.Accessinfo.UserID;
-	    activity.ContactID = contactId;
+            activity.OwnerID = new Guid("B5344897-037E-4D58-B5C3-1BDFD0F47BF9");
+			activity.ContactID = contactId;
             activity.RefNoteID = contactGuid ;
             activity_graph.Activities.Update(activity);
             activity_graph.Save.Press();
