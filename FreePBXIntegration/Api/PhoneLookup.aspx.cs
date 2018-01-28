@@ -7,7 +7,18 @@ using PX.Data;
 using PX.Objects.CR;
 using PX.Objects.AR;
 using System.Web.UI.WebControls;
+using Hackathon;
+using FreePBXIntegration;
 
+public class PhoneAudit : PXGraph<PhoneAudit>
+{
+
+    public PXSave<PhoneCallerAudit> Save;
+    public PXCancel<PhoneCallerAudit> Cancel;
+
+
+    public PXSelect<PhoneCallerAudit> Audit;
+}
 public partial class Api_PhoneLookup : System.Web.UI.Page
 {
     public String contactName = "";
@@ -16,6 +27,7 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
     {
         ContactMaint graph = PXGraph.CreateInstance<ContactMaint>();
         var search_phone = Request.QueryString["phone"];
+        var default_callID = Request.QueryString["cid"];
         BusinessAccountMaint baccount_graph = PXGraph.CreateInstance<BusinessAccountMaint>();
 
         var contacts = PXSelect<Contact,
@@ -38,7 +50,23 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             { 
                 accountCD = ((BAccount)customers.First()).AcctCD;
             }
+        } else
+        {
+            var contact = new Contact();
+            contact.LastName = default_callID;
+            contact.Phone1 = search_phone;
+            graph.Contact.Insert(contact);
+            graph.Contact.Cache.Persist(PXDBOperation.Insert);
+            contactName = default_callID;
         }
+
+        // Save an audit record of the phone call
+        var audit_graph = PXGraph.CreateInstance<PhoneAudit>();
+        var audit = new PhoneCallerAudit();
+        audit.PhoneNubmer = search_phone;
+        audit.CallerID = contactName;
+        audit_graph.Audit.Insert(audit);
+        audit_graph.Audit.Cache.Persist(PXDBOperation.Insert);
 
         var json = string.Format("{{\"baccount\": \"{0}\", \"contact\": \"{1}\"}}", accountCD, contactName);
 
