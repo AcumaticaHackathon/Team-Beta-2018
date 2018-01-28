@@ -1,0 +1,74 @@
+﻿<Graph ClassName="PhoneGetter" Source="#CDATA" IsNew="True" FileType="NewGraph">
+    <CDATA name="Source"><![CDATA[using System;
+using PX.Data;
+using PX.Data.EP;
+using PX.Objects.AP;
+using PX.Objects.CR.MassProcess;
+using PX.Objects.CS;
+using PX.Objects.CR;
+using PX.TM;
+using PX.SM;
+using PX.Objects.EP;
+using System.Collections;
+using FreePBXIntegration;
+
+namespace Hackathon
+{
+  public class PhoneGetter : PXGraph<PhoneGetter>
+  {
+
+    public PXSave<MasterTable> Save;
+    public PXCancel<MasterTable> Cancel;
+
+
+    public PXSelect<MasterTable> MasterView;
+    public PXSelect<PhoneCallerAudit> Audit;
+    
+    public IEnumerable masterView()
+    {
+    MasterTable mt=new MasterTable();
+
+  if(PXView.Filters !=null && PXView.Filters.Length > 0 && PXView.Filters[0]!=null)
+    {
+    PhoneCallerAudit pca=new PhoneCallerAudit();
+    pca.PhoneNubmer =PXView.Filters[0].Value.ToString();
+    Audit.Insert(pca);
+    Caches[typeof(PhoneCallerAudit)].Persist(PXDBOperation.Insert);
+    
+    
+    }
+     //Contact contact=PXSelect<Contact, 
+     // Where<Contact.phone1, Equal<Required<Contact.phone1>>>>.Select(this, (string)PXView.Searches[0]);
+    mt.PhoneNbr=(string)PXView.Searches[0];
+   // mt.ContactID=contact.ContactID;
+  
+    yield return mt;
+    // yield break;
+  }
+    
+
+    [Serializable]
+    public class MasterTable : IBqlTable
+    {
+       public abstract class phoneNbr
+       {}
+    [PXDBString(50, IsUnicode = true, IsKey = true)]
+    [PXUIField(DisplayName = "Phone", Visibility = PXUIVisibility.SelectorVisible)]
+    //[PhoneValidation]
+
+       public virtual string PhoneNbr
+      {get; set;}
+        
+        
+
+   #region ContactID
+    public abstract class contactID : IBqlField { }
+
+    [PXDBInt()]
+    [PXUIField(DisplayName = "Contact ID", Visibility = PXUIVisibility.SelectorVisible)]
+    public virtual Int32? ContactID { get; set; }
+    #endregion
+    }
+  }
+}]]></CDATA>
+</Graph>
