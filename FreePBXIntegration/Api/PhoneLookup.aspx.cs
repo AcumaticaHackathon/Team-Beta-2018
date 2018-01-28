@@ -30,6 +30,7 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
         var default_callID = Request.QueryString["cid"];
         BusinessAccountMaint baccount_graph = PXGraph.CreateInstance<BusinessAccountMaint>();
 
+		Int32? contactId = null;
         var contacts = PXSelect<Contact,
             Where<Contact.phone1,
                 Equal<Required<Contact.phone1>>,
@@ -50,14 +51,19 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             { 
                 accountCD = ((BAccount)customers.First()).AcctCD;
             }
+			
+			contactId = contact.ContactID;
+			
         } else
         {
             var contact = new Contact();
             contact.LastName = default_callID;
             contact.Phone1 = search_phone;
-            graph.Contact.Insert(contact);
+            contact = graph.Contact.Insert(contact);
             graph.Contact.Cache.Persist(PXDBOperation.Insert);
             contactName = default_callID;
+			
+			contactId = contact.ContactID;
         }
 
         // Save an audit record of the phone call
@@ -65,9 +71,11 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
         var audit = new PhoneCallerAudit();
         audit.PhoneNubmer = search_phone;
         audit.CallerID = contactName;
+		audit.ContactID = contactId;
         audit_graph.Audit.Insert(audit);
-        audit_graph.Audit.Cache.Persist(PXDBOperation.Insert);
-
+        //audit_graph.Audit.Cache.Persist(PXDBOperation.Insert);
+		audit_graph.Save.Press();
+		
         var json = string.Format("{{\"baccount\": \"{0}\", \"contact\": \"{1}\"}}", accountCD, contactName);
 
         Response.Clear();

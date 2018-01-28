@@ -8,7 +8,7 @@ namespace FreePBXIntegration
   public class PhoneCallerAudit : IBqlTable
   {
     #region RecordID
-    [PXDBIdentity(IsKey = true)]
+    [PXDBLongIdentity(IsKey = true)]
     public virtual long? RecordID { get; set; }
     public abstract class recordID : IBqlField { }
     #endregion
@@ -26,6 +26,13 @@ namespace FreePBXIntegration
     public virtual string CallerID { get; set; }
     public abstract class callerID : IBqlField { }
     #endregion
+      
+    #region ContactID
+    [PXDBInt()]
+    [PXUIField(DisplayName = "Contact ID")]
+    public virtual int? ContactID{ get; set; }
+    public abstract class contactID: IBqlField { }
+    #endregion 
 
     #region Tstamp
     [PXDBTimestamp()]

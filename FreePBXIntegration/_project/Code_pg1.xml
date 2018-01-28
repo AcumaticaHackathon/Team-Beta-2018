@@ -1,0 +1,32 @@
+﻿<Graph ClassName="pg1" Source="#CDATA" IsNew="True" FileType="NewGraph">
+    <CDATA name="Source"><![CDATA[using System;
+using PX.Data;
+
+namespace FreePBXIntegration
+{
+	public class pg1 : PXGraph<pg1>
+	{
+
+		public PXSave<MasterTable> Save;
+		public PXCancel<MasterTable> Cancel;
+
+
+		public PXFilter<MasterTable> MasterView;
+		public PXFilter<DetailsTable> DetailsView;
+
+		[Serializable]
+		public class MasterTable : IBqlTable
+		{
+
+		}
+
+		[Serializable]
+		public class DetailsTable : IBqlTable
+		{
+
+		}
+
+
+	}
+}]]></CDATA>
+</Graph>

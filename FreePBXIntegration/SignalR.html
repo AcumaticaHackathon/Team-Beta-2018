@@ -1,0 +1,52 @@
+<html>
+    <head>
+    <title>SignalR client</title>
+
+    <script type="text/javascript" src="Scripts/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="signalr/hubs"></script>
+
+    <script type="text/javascript">
+	$(function () {
+			var url = 'http://acusea.acumatica.com/Hackathon';
+
+			// seems to be a bug in CORs signalR client library that
+			// the URL host in the connection object is not passed through to the hub
+			$.connection.hub.url = url;
+		
+			var connection = $.hubConnection(url);	
+			//connection.setRequestHeader('Authorization', make_base_auth ('admin', '123'));
+			
+			var contosoChatHubProxy = connection.createHubProxy('PushNotificationsHub');
+				contosoChatHubProxy.on('ReceiveNotification', function(p) {
+				//console.log(p);
+				console.log(p.Inserted[0].ContactID);
+				
+				if(p.Inserted[0].ContactID != null)
+				{
+					document.write(p.Inserted[0].FirstName + ' ' + p.Inserted[0].LastName + ' is calling now' + '<BR>');
+					document.write('Caller ID: ' + p.Inserted[0].CallerID + ', Phone Number: ' + p.Inserted[0].PhoneNubmer + ')' + '<BR>');
+					document.write('------------------------------------------<BR>');
+					window.open('http://acusea.acumatica.com/Hackathon/Main?ScreenId=CR302000&ContactID='+p.Inserted[0].ContactID,'mywindow').focus();
+					//window.open('http://acusea.acumatica.com/Hackathon/Main?ScreenId=CR302000&ContactID='+p.Inserted[0].ContactID,'_blank');
+				}
+			});
+			connection.start()
+				.done(function()
+				{ 
+					console.log('Now connected, connection ID=' + connection.id); 
+					document.write('Connection is establised' + '<BR>');
+					document.write('------------------------------------------<BR>');
+					contosoChatHubProxy.invoke("subscribe", "CallerID");
+					//contosoChatHubProxy.invoke("subscribe", "SalesOrders");
+				})
+				.fail(function(){ console.log('Could not connect'); });
+	});
+    </script>
+
+    </head>
+    <body>
+	Call Listener
+        <ul id="messages"></ul>
+    </body>
+</html>
