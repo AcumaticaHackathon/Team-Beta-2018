@@ -87,9 +87,21 @@ namespace PX.Objects.CR
                 new StringContent("", System.Text.Encoding.UTF8, "application/json")).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             response.EnsureSuccessStatusCode();
-        }
-          
-        
+ 
+
+            CRActivityMaint graph = PXGraph.CreateInstance<CRActivityMaint>();
+            CRActivity activity = new CRActivity();
+            activity = graph.Activities.Insert(activity);
+            activity.Type = "P";
+            activity.Subject = "Outbound Call";
+            activity.OwnerID = employee.UserID;
+            activity.RefNoteID = Base.ContactCurrent.Current.NoteID;
+            graph.Activities.Update(activity);
+
+            PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
+
+
+        }       
 
     #region Event Handlers
 
