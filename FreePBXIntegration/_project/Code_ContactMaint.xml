@@ -25,7 +25,7 @@ namespace PX.Objects.CR
         public PXSetup<CRSetup> setup;
   
         public PXAction<Contact> callPhone1;
-        [PXUIField(DisplayName = "Call Phone 1", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXUIField(DisplayName = "Call", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton]
         public virtual IEnumerable CallPhone1(PXAdapter adapter)
         {
@@ -36,7 +36,7 @@ namespace PX.Objects.CR
         }
           
         public PXAction<Contact> callPhone2;
-        [PXUIField(DisplayName = "Call Phone 2", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXUIField(DisplayName = "Call", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton]
         public virtual IEnumerable CallPhone2(PXAdapter adapter)
         {
@@ -47,7 +47,7 @@ namespace PX.Objects.CR
         }
           
         public PXAction<Contact> callPhone3;
-        [PXUIField(DisplayName = "Call Phone 3", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXUIField(DisplayName = "Call", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton]
         public virtual IEnumerable CallPhone3(PXAdapter adapter)
         {
@@ -87,9 +87,21 @@ namespace PX.Objects.CR
                 new StringContent("", System.Text.Encoding.UTF8, "application/json")).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             response.EnsureSuccessStatusCode();
-        }
-          
-        
+ 
+
+            CRActivityMaint graph = PXGraph.CreateInstance<CRActivityMaint>();
+            CRActivity activity = new CRActivity();
+            activity = graph.Activities.Insert(activity);
+            activity.Type = "P";
+            activity.Subject = "Outbound Call";
+            activity.OwnerID = employee.UserID;
+            activity.RefNoteID = Base.ContactCurrent.Current.NoteID;
+            graph.Activities.Update(activity);
+
+            PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
+
+
+        }       
 
     #region Event Handlers
 
