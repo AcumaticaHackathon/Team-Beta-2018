@@ -96,6 +96,7 @@ namespace PX.Objects.CR
             activity.Subject = "Outbound Call";
             activity.OwnerID = employee.UserID;
             activity.RefNoteID = Base.ContactCurrent.Current.NoteID;
+            activity.ContactID = Base.ContactCurrent.Current.ContactID;
             graph.Activities.Update(activity);
 
             PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);

@@ -64,7 +64,7 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             contact.LastName = default_callID;
             contact.Phone1 = search_phone;
             contact = graph.Contact.Insert(contact);
-            graph.Contact.Cache.Persist(PXDBOperation.Insert);
+            //graph.Contact.Cache.Persist(PXDBOperation.Insert);
             graph.Save.Press();
             contactName = default_callID;
 			
@@ -87,6 +87,7 @@ public partial class Api_PhoneLookup : System.Web.UI.Page
             activity.Type = "P";
             activity.Subject = "Inbound Call";
             activity.OwnerID = activity_graph.Accessinfo.UserID;
+	    activity.ContactID = contactId;
             activity.RefNoteID = contactGuid ;
             activity_graph.Activities.Update(activity);
             activity_graph.Save.Press();
