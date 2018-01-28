@@ -5,22 +5,35 @@ using System.Web;
 using System.Web.UI;
 using PX.Data;
 using PX.Objects.CR;
+using PX.Objects.AR;
 using System.Web.UI.WebControls;
 
 public partial class Api_PhoneLookup : System.Web.UI.Page
 {
-    public String contact_name = "";
+    public String contactName = "";
+    public String accountCD = "";
     protected void Page_Load(object sender, EventArgs e)
     {
         ContactMaint graph = PXGraph.CreateInstance<ContactMaint>();
         var search_phone = Request.QueryString["phone"];
-        var rows = PXSelect<Contact,
+        BusinessAccountMaint baccount_graph = PXGraph.CreateInstance<BusinessAccountMaint>();
+
+        var contacts = PXSelect<Contact,
             Where<Contact.phone1,
                 Equal<Required<Contact.phone1>>>>.Select(graph, search_phone);
-        foreach (Contact item in rows)
-        {
-            contact_name = item.DisplayName;
-        }
+        // For now, just grab the first result
+        contactName = ((Contact)contacts.First()).DisplayName;
+
+        var customers = PXSelect<BAccount, Where<BAccount.bAccountID, Equal<Required<Contact.bAccountID>>>>.Select(graph, item.BAccountID);
+        // There should only be one bAccount that matches
+        accountCD = ((BAccount)customers.First()).AcctCD;
+
+        var json = string.Format("[\"{0}\", \"{1}\"]", accountCD, contactName);
+
+        Response.Clear();
+        Response.ContentType = "application/json; charset=utf-8";
+        Response.Write(json);
+        Response.End();
 
     }
 }
