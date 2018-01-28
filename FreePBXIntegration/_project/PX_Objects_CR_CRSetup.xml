@@ -1,0 +1,7 @@
+﻿<DAC type="PX.Objects.CR.CRSetup">
+    <Field FieldName="UsrVOIPUrl" TypeName="string" MapDbTable="CRSetup" TextAttributes="#CDATA" StorageName="AddColumn">
+        <CDATA name="TextAttributes"><![CDATA[[PXDBString(255)]
+[PXUIField(DisplayName="VOIP URL")]
+]]></CDATA>
+    </Field>
+</DAC>
