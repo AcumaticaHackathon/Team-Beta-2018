@@ -1,5 +1,4 @@
-﻿<Graph ClassName="PhoneCallerAudit" Source="#CDATA" IsNew="True" FileType="NewDac">
-    <CDATA name="Source"><![CDATA[using System;
+using System;
 using PX.Data;
 
 namespace FreePBXIntegration
@@ -48,5 +47,4 @@ namespace FreePBXIntegration
     public abstract class noteid : IBqlField { }
     #endregion
   }
-}]]></CDATA>
-</Graph>
+}

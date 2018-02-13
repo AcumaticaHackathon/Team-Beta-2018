@@ -1,5 +1,4 @@
-﻿<Graph ClassName="ContactMaint" Source="#CDATA" IsNew="True" FileType="ExistingGraph">
-    <CDATA name="Source"><![CDATA[using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +95,6 @@ namespace PX.Objects.CR
             activity.Subject = "Outbound Call";
             activity.OwnerID = employee.UserID;
             activity.RefNoteID = Base.ContactCurrent.Current.NoteID;
-            activity.ContactID = Base.ContactCurrent.Current.ContactID;
             graph.Activities.Update(activity);
 
             PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
@@ -108,5 +106,4 @@ namespace PX.Objects.CR
 
     #endregion
   }
-}]]></CDATA>
-</Graph>
+}

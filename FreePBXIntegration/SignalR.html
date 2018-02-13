@@ -8,7 +8,7 @@
 
     <script type="text/javascript">
 	$(function () {
-			var url = 'http://acusea.acumatica.com/Hackathon';
+			var url = 'http://172.16.5.3/Hackathon';
 
 			// seems to be a bug in CORs signalR client library that
 			// the URL host in the connection object is not passed through to the hub
@@ -27,8 +27,7 @@
 					document.write(p.Inserted[0].FirstName + ' ' + p.Inserted[0].LastName + ' is calling now' + '<BR>');
 					document.write('Caller ID: ' + p.Inserted[0].CallerID + ', Phone Number: ' + p.Inserted[0].PhoneNubmer + ')' + '<BR>');
 					document.write('------------------------------------------<BR>');
-					window.open('http://acusea.acumatica.com/Hackathon/Main?ScreenId=CR302000&ContactID='+p.Inserted[0].ContactID,'mywindow').focus();
-					//window.open('http://acusea.acumatica.com/Hackathon/Main?ScreenId=CR302000&ContactID='+p.Inserted[0].ContactID,'_blank');
+					window.open('http://172.16.5.3/Hackathon/Main?ScreenId=CR302000&ContactID='+p.Inserted[0].ContactID,'mywindow').focus();
 				}
 			});
 			connection.start()

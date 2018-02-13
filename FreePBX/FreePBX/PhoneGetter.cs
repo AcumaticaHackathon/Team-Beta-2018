@@ -1,5 +1,4 @@
-﻿<Graph ClassName="PhoneGetter" Source="#CDATA" IsNew="True" FileType="NewGraph">
-    <CDATA name="Source"><![CDATA[using System;
+using System;
 using PX.Data;
 using PX.Data.EP;
 using PX.Objects.AP;
@@ -120,5 +119,4 @@ public virtual void MasterTable_RowPersisting(PXCache sender, PXRowPersistingEve
     #endregion
     }
   }
-}]]></CDATA>
-</Graph>
+}

@@ -32,23 +32,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PX.Common">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Acumatica ERP\Acu_720\Bin\PX.Common.dll</HintPath>
+    <Reference Include="PX.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Acumatica ERP\Hackathon\Bin\PX.Common.dll</HintPath>
     </Reference>
-    <Reference Include="PX.Data">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Acumatica ERP\Acu_720\Bin\PX.Data.dll</HintPath>
+    <Reference Include="PX.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Acumatica ERP\Hackathon\Bin\PX.Data.dll</HintPath>
     </Reference>
-    <Reference Include="PX.Objects">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Acumatica ERP\Acu_720\Bin\PX.Objects.dll</HintPath>
+    <Reference Include="PX.Objects, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Acumatica ERP\Hackathon\Bin\PX.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples.cs" />
+    <Compile Include="DAC\AddressExtensions.cs" />
+    <Compile Include="ContactMaint.cs" />
+    <Compile Include="DAC\BAccountExtensions.cs" />
+    <Compile Include="DAC\CRSetupExtensions.cs" />
+    <Compile Include="DAC\PhoneCallerAudit.cs" />
+    <Compile Include="PhoneGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
